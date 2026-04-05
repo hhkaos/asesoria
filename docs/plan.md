@@ -23,7 +23,7 @@ completada y revisada con el equipo.
 **Objetivo:** que `docker compose up` arranque backend + frontend + postgres, la API responda en
 `/health`, y los tests pasen. Sin lógica de negocio.
 
-**Estado:** `pendiente`
+**Estado:** `completado ✅`
 
 ### Qué se instala / arranca
 

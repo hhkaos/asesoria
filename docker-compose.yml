@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: asesoria
+      POSTGRES_PASSWORD: asesoria
+      POSTGRES_DB: asesoria
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U asesoria"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db_test:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: asesoria
+      POSTGRES_PASSWORD: asesoria
+      POSTGRES_DB: asesoria_test
+    volumes:
+      - pgdata_test:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U asesoria -d asesoria_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    env_file: .env
+    environment:
+      # Sobreescribir para usar los nombres de servicio Docker (no localhost)
+      DATABASE_URL: postgresql+asyncpg://asesoria:asesoria@db:5432/asesoria
+      DATABASE_TEST_URL: postgresql+asyncpg://asesoria:asesoria@db_test:5432/asesoria_test
+    volumes:
+      - ./backend:/app
+      - ./data:/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app
+      # Evitar que el bind mount sobreescriba node_modules del contenedor
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+  pgdata_test:
