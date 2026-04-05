@@ -2,6 +2,8 @@
 ## Plataforma Web para Control de Declaraciones Fiscales Presentadas
 
 > Versión 0.3 — Resultado de sesiones de discovery y revisión en profundidad
+>
+> **Seguimiento de implementación:** [docs/plan.md](./docs/plan.md)
 
 ---
 
@@ -474,6 +476,7 @@ Integración de un bot de mensajería (Telegram, WhatsApp Business, Slack...) qu
 | Escalabilidad | Hasta 2.000 clientes y decenas de miles de declaraciones anuales |
 | Rendimiento | Listados y filtros con respuesta < 1 s para el volumen previsto |
 | Seguridad | Datos fiscales sensibles: HTTPS, cifrado, RBAC, sin URLs directas a ficheros |
+| Seguridad de dependencias | Siempre últimas versiones estables (LTS). Auditoría con `pip-audit` y `npm audit` antes de cada release. Sin vulnerabilidades high/critical sin justificación documentada. Ver política completa en [CLAUDE.md](./CLAUDE.md#política-de-versiones-y-seguridad-de-dependencias) |
 | Usabilidad | Interfaz orientada a revisión rápida; mínimo de clics para subir un fichero o marcar sin actividad |
 | Responsive / mobile-first | La interfaz debe funcionar correctamente en móvil, tablet y escritorio. El diseño parte de mobile-first y se adapta progresivamente a pantallas más grandes. |
 | Disponibilidad | VPS con backups periódicos de BD y ficheros |

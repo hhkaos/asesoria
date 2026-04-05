@@ -336,3 +336,49 @@ La interfaz debe funcionar correctamente en móvil, tablet y escritorio. El dise
 - Python: `black` + `ruff` (formato y linting). `mypy` en módulos de lógica de negocio.
 - TypeScript: `eslint` + `prettier`.
 - Commits descriptivos. Nunca commitear `.env` ni secretos.
+
+---
+
+## Política de versiones y seguridad de dependencias
+
+### Versiones
+
+- Usar siempre la **última versión estable** (latest stable / LTS cuando aplique) de cada dependencia al añadirla.
+- No fijar versiones exactas en `pyproject.toml` ni `package.json` salvo que una versión específica rompa algo documentado. Usar rangos compatibles (`>=X.Y`, `^X.Y.Z`).
+- Revisar versiones desactualizadas antes de cada release: `pip list --outdated` y `npm outdated`.
+
+### Auditorías de seguridad
+
+**Backend (Python):**
+
+```bash
+# Detecta vulnerabilidades conocidas en dependencias instaladas
+pip install pip-audit
+pip-audit
+
+# Alternativa con safety
+pip install safety
+safety check
+```
+
+**Frontend (Node):**
+
+```bash
+# Auditoría de vulnerabilidades en node_modules
+npm audit
+
+# Corrección automática de vulnerabilidades no breaking
+npm audit fix
+```
+
+**Cuándo ejecutarlas:**
+
+- Al añadir o actualizar cualquier dependencia.
+- Antes de cada release a staging o producción.
+- Se incluirá como paso en el checklist de `docs/deployment/promotion.md`.
+
+### Reglas
+
+- No se sube código con vulnerabilidades de severidad **high** o **critical** sin documentar explícitamente por qué no se puede resolver.
+- Las dependencias de desarrollo (`dev`) también se auditan — un ataque a la cadena de suministro puede ocurrir en herramientas de build.
+- No usar dependencias abandonadas (sin mantenimiento activo en los últimos 12 meses) sin alternativa justificada.
