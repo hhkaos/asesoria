@@ -320,6 +320,17 @@ docs/
 
 ---
 
+## UI — Responsive / mobile-first
+
+La interfaz debe funcionar correctamente en móvil, tablet y escritorio. El diseño parte de **mobile-first** y escala progresivamente.
+
+- Usar Tailwind CSS (o similar) con breakpoints estándar: `sm` (640px), `md` (768px), `lg` (1024px).
+- Los flujos críticos (subir fichero, marcar sin actividad, consultar estado) deben ser usables en pantalla de móvil sin scroll horizontal.
+- Las tablas con muchas columnas deben adaptarse en móvil (columnas colapsables, scroll horizontal contenido, o vista de tarjetas).
+- Los modales, formularios y acciones de confirmación deben estar optimizados para interacción táctil (tamaño mínimo de área táctil).
+
+---
+
 ## Convenciones de código
 
 - Python: `black` + `ruff` (formato y linting). `mypy` en módulos de lógica de negocio.

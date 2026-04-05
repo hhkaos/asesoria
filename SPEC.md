@@ -405,7 +405,35 @@ Aunque el sistema arranca como single-tenant:
 
 ---
 
-## 7. Plan de Desarrollo por Fases
+## 7. Ideas y Extensiones Futuras
+
+Funcionalidades fuera del roadmap actual pero de interés para versiones futuras.
+
+### Bot conversacional (Telegram u otro canal)
+
+Integración de un bot de mensajería (Telegram, WhatsApp Business, Slack...) que permita al asesor interactuar con el sistema en lenguaje natural sin abrir la aplicación web.
+
+**Concepto:**
+- El asesor envía un mensaje al bot: *"Marca el 303 del tercer trimestre de Empresa X como presentado"*.
+- Un LLM interpreta la intención (intent), extrae las entidades relevantes (empresa, modelo, periodo, acción) y las resuelve contra los datos del sistema.
+- Antes de ejecutar el cambio, el bot **muestra un resumen de la acción propuesta y solicita confirmación explícita** al asesor.
+- Solo tras confirmar, el sistema aplica el cambio vía la API interna.
+
+**Casos de uso previstos:**
+- Actualizar el estado de una declaración o marcarla como presentada.
+- Consultar el estado de cumplimiento de un cliente o empresa.
+- Ver los vencimientos próximos del día o la semana.
+- Recibir alertas proactivas de incumplimientos sin entrar en la app.
+
+**Consideraciones técnicas:**
+- El LLM actúa únicamente como capa de interpretación; toda la lógica de negocio y validaciones residen en el backend.
+- La confirmación es obligatoria para cualquier acción de escritura — el bot nunca modifica datos sin aprobación explícita del asesor.
+- La autenticación del usuario en el bot debe vincularse a su cuenta en el sistema (token de sesión o enlace de verificación).
+- El historial de acciones realizadas vía bot queda registrado igual que las realizadas desde la web.
+
+---
+
+## 8. Plan de Desarrollo por Fases
 
 ### Fase 1 — MVP
 
@@ -447,6 +475,7 @@ Aunque el sistema arranca como single-tenant:
 | Rendimiento | Listados y filtros con respuesta < 1 s para el volumen previsto |
 | Seguridad | Datos fiscales sensibles: HTTPS, cifrado, RBAC, sin URLs directas a ficheros |
 | Usabilidad | Interfaz orientada a revisión rápida; mínimo de clics para subir un fichero o marcar sin actividad |
+| Responsive / mobile-first | La interfaz debe funcionar correctamente en móvil, tablet y escritorio. El diseño parte de mobile-first y se adapta progresivamente a pantallas más grandes. |
 | Disponibilidad | VPS con backups periódicos de BD y ficheros |
 | Trazabilidad | Cada declaración registra el usuario y la fecha/hora de creación |
 | Multi-entorno | El sistema soporta tres entornos (dev, staging, prod) con configuración aislada y proceso documentado de promoción de cambios |
